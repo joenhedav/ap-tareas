@@ -261,6 +261,207 @@ console.log(usandoMultiplicador(5))
 const sumarAnonima = (a, b) => a + b
 console.log(sumarAnonima(5, 3))
 
+// 03 - EJERCICIOS SOBRE FUNCIONES (CONSUMO DE DATOS, MAPEO DE INFORMACIÓN, 
+// AUTENTICACIÓN DE USURARIOS)
+
+/* 1. Consumo de Datos desde una API:
+  Crea una función llamada obtenerUsuarios que haga una petición
+  HTTP a la API https://jsonplaceholder.typicode.com/users usando
+  fetch. Luego, imprime en la consola la lista de usuarios obtenida.
+*/
+const obtenerUsuarios = async () => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/users')
+  const data = await response.json()  
+  console.log(data)
+  return data
+}
+
+/* 2. Procesamiento de Datos de una API:
+  Usando la función obtenerUsuarios, crea otra función llamada
+  imprimirNombresDeUsuarios que filtre y muestre solo los nombres
+  de los usuarios
+*/
+const imprimirNombresDeUsuarios = async () => {
+  const data = await obtenerUsuarios()
+  data.forEach(usuario => {
+    console.log(usuario.name)
+  })
+}
+imprimirNombresDeUsuarios()
+
+/* 3. Autenticación Simulada:
+  Crea una función llamada autenticarUsuario que tome un objeto
+  credenciales con usuario y contraseña, y verifique si coinciden con
+  un usuario predefinido. La función debe devolver true si la
+  autenticación es exitosa y false en caso contrario.
+*/
+const credenciales = {
+  usuario: 'user',
+  contrasena: '123'
+}
+
+const autenticarUsuario = (credenciales) => {
+  const usuarioPredefinido = {
+    usuario: 'admin',
+    contrasena: '123'
+  }
+  
+  if (credenciales.usuario === usuarioPredefinido.usuario &&
+      credenciales.contrasena === usuarioPredefinido.contrasena
+  ) {
+    return true
+  }
+  return false
+}
+console.log(autenticarUsuario(credenciales))
+
+/* 4. Transformación de Datos:
+  Crea una función llamada mapearUsuarios que tome un array de
+  usuarios obtenidos de la API y devuelva un nuevo array con solo las
+  propiedades nombre y email de cada usuario.
+*/
+const mapearUsuarios = async () => {
+  const data = await obtenerUsuarios()
+  const usuariosMapeados = data.map(usuario => {
+    return {
+      nombre: usuario.name,
+      email: usuario.email
+    }
+  })
+  console.log(usuariosMapeados)
+}
+mapearUsuarios()
+
+/* 
+  5. Validación de Formularios:
+  Crea una función llamada validarFormulario que tome un objeto con
+  los campos nombre, email y password. La función debe devolver true
+  si todos los campos están presentes y no están vacíos, y false en caso
+  contrario
+*/
+const formulario = {
+  nombre: 'admin',
+  email: 'admin@admin.com',
+  password: '123'
+}
+
+const validarFormulario = (dataFormulario) => {
+  if (dataFormulario.nombre && dataFormulario.email && dataFormulario.password) {
+    return true
+  }
+  return false
+}
+validarFormulario(formulario)
+
+/* 6. Paginación de Datos:
+   Crea una función llamada obtenerPagina que tome un array de
+  datos y un número de página. La función debe devolver los
+  elementos correspondientes a esa página, asumiendo que cada
+  página tiene 5 elementos
+*/
+const obtenerPagina = (datos, pagina) => {
+  const cantidadElementos = 5
+  const inicio = (pagina - 1) * cantidadElementos
+  const fin = inicio + cantidadElementos
+
+  return datos.slice(inicio, fin)
+}
+const datos = [1,2,3,4,5,6,7,8,9,10]
+console.log(obtenerPagina(datos, 1))
+console.log(obtenerPagina(datos, 2))
+
+/* 7. Envío de Datos a una API:
+  Crea una función llamada enviarDatos que tome un objeto data y
+  haga una petición POST a la API
+  https://jsonplaceholder.typicode.com/posts. La función debe
+  imprimir la respuesta de la API. */
+const enviarDatos = async (data) => {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    const result = await response.json()
+    console.log(result)
+}
+enviarDatos({
+    userId: 1,
+    title: 'lorem ipsum',
+    body: 'lorem impsum'
+});
+
+/* 8. Búsqueda de Usuarios:
+  Crea una función llamada buscarUsuarioPorEmail que tome un array
+  de usuarios y un email como parámetros, y devuelva el usuario que
+  coincida con el email proporcionado. Usa el método find para
+  implementarlo */
+const misUsuarios = [
+  {
+    username: 'usuario 1',
+    email: 'usuario1@usuario.com'
+  },
+  {
+    username: 'usuario 2',
+    email: 'usuario2@usuario.com'
+  },
+  {
+    username: 'usuario 3',
+    email: 'usuario3@usuario.com'
+  },
+]
+const buscarUsuarioPorEmail = (usuarios, email) => {
+  return usuarios.find(usuario => usuario.email === email)
+}
+const usuario = buscarUsuarioPorEmail(misUsuarios, 'usuario1@usuario.com')
+console.log(usuario)
+
+/* 9 .Generación de Token de Autenticación:
+  Crea una función llamada generarToken que tome un objeto usuario
+  y devuelva un token JWT simulado como una cadena. Puedes usar
+  una función como btoa (Base64) para simular la generación del
+  token
+*/
+const generarToken = (usuario) => {
+  const datos = JSON.stringify(usuario)
+  const token = btoa(datos)
+  return token
+}
+const usuarioToken = {
+  id: 1,
+  nombre: 'Luisa',
+  email: 'Luisa@usuario.com'
+}
+
+const token = generarToken(usuarioToken)
+console.log(token)
+
+/* 10. Actualización de Información del Usuario:
+  Crea una función llamada actualizarUsuario que tome un objeto
+  usuario y una lista de cambios a aplicar. La función debe retornar el
+  usuario con las propiedades actualizadas.
+*/
+const actualizarUsuario = (usuario, cambios) => {
+  return {
+    ...usuario,
+    ...cambios
+  }
+}
+
+const miUsuario = {
+  nombre: 'Bob',
+  email: 'bob@admin.com',
+  edad: 30
+}
+
+const cambios = {
+  email: 'usuariobob@usuario.com',
+  edad: 31
+}
+const usuarioActualizado = actualizarUsuario(miUsuario, cambios)
+console.log(usuarioActualizado)
+
 // 04 - EJERCICIOS SOBRE OPERACIONES CON ARRAYS
 
 /* 1. Agregar y Eliminar Elementos:
@@ -372,8 +573,3 @@ console.log(mayorDeTreinta(personas))
   Crea un array de palabras y ordénalo alfabéticamente usando sort. */
 const palabras = ['pan', 'arbol', 'campo', 'tren']
 console.log(palabras.sort())
-
-
-
-
-
