@@ -325,5 +325,55 @@ const sumarElementos = (array) => {
 }
 console.log(sumarElementos([1,2,3,4,5]))
 
+/* 7. Uso de some:
+  Crea un array de números llamado numeros y usa some para
+  verificar si algún número es mayor que 10.
+*/
+const numeros = [30, 10, 5, -3, 1]
+const esMayorQueDiez = (array) => {
+  return array.some(elemento => elemento > 10)
+}
+console.log(esMayorQueDiez(numeros))
+
+/* 8. Uso de every:
+  Crea un array de números llamado numeros y usa every para verificar
+  si todos los números son positivos. */
+const todosSonPositivos = (array) => {
+  return array.every(elemento => elemento > 0)
+}
+console.log(todosSonPositivos(numeros))
+
+/* 9. Uso de find:
+  Crea un array de objetos llamados personas donde cada objeto
+  tenga nombre y edad. Usa find para encontrar a la primera persona
+  mayor de 30 años. */
+const personas = [
+  {
+    nombre: 'Foo',
+    edad: 3
+  },
+  {
+    nombre: 'Bob',
+    edad: 5
+  },
+  {
+    nombre: 'Lee',
+    edad: 33      
+  },
+]
+
+const mayorDeTreinta = (array) => {
+  const persona = array.find(persona => persona.edad > 30)
+  return persona.nombre
+}
+console.log(mayorDeTreinta(personas))
+
+/* 10. Uso de sort:
+  Crea un array de palabras y ordénalo alfabéticamente usando sort. */
+const palabras = ['pan', 'arbol', 'campo', 'tren']
+console.log(palabras.sort())
+
+
+
 
 
